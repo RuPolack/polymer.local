@@ -1,0 +1,13 @@
+<?php
+$host = "localhost";
+$dbname = "polymer";
+$username = "postgres";
+$password = "postgres";
+
+try {
+    $pdo = new PDO("pgsql:host=$host;dbname=$dbname", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch(PDOException $e) {
+    die("Ошибка подключения: " . $e->getMessage());
+}
+?>
