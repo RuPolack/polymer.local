@@ -54,8 +54,14 @@ unset($_SESSION['quiz_data']);
             <h1>Результаты теста</h1>
         </div>
         
-        <div class="content">
+        <div>
             <div class="result">
+                <?php if($score >= 70): ?>
+                    <div class="result-score"><h1 style="color: #27ae60; font-size: 32px;">ВЫ СДАЛИ</p></div>
+                <?php else: ?>
+                    <div class="result-score"><h1 style="color: #e74c3c; font-size: 32px;">ВЫ НЕ СДАЛИ</p></div>
+                <?php endif; ?>
+
                 <h2><?= htmlspecialchars($userName) ?>, ваш результат:</h2>
                 <div class="score"><?= $score ?>%</div>
                 <p>Правильных ответов: <?= $correctAnswers ?> из <?= $totalQuestions ?></p>
@@ -64,15 +70,7 @@ unset($_SESSION['quiz_data']);
                     <div class="progress-bar" style="width: <?= $score ?>%"></div>
                 </div>
                 
-                <?php if($score >= 80): ?>
-                    <p style="color: #27ae60; font-size: 1.2em;">Отличный результат!</p>
-                <?php elseif($score >= 60): ?>
-                    <p style="color: #f39c12; font-size: 1.2em;">Хороший результат!</p>
-                <?php else: ?>
-                    <p style="color: #e74c3c; font-size: 1.2em;">Попробуйте еще раз!</p>
-                <?php endif; ?>
-                
-                <a href="index.php" class="btn" style="margin-top: 20px;">Пройти еще раз</a>
+                <div style="padding-top: 20px;"><a href="index.php" class="btn">Пройти еще раз</a></div>
             </div>
         </div>
     </div>
