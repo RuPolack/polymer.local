@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'config.php';
+require_once 'resource/connect.php';
 
 if(!isset($_SESSION['quiz_data']) || !isset($_POST['answers'])) {
     header('Location: index.php');

@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'config.php';
+require_once 'resource/connect.php';
 
 if(!isset($_GET['name']) || !isset($_GET['profession'])) {
     header('Location: index.php');

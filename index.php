@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'config.php';
+require_once 'resource/connect.php';
 
 // Получаем список профессий
 $stmt = $pdo->query("SELECT * FROM professions");
