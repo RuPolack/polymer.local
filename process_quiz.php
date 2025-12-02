@@ -16,18 +16,24 @@ $questions = $quizData['questions'];
 $correctAnswers = 0;
 $totalQuestions = count($questions);
 
+// Альтернативный вариант - шифрование через PostgreSQL функцию
+$stmt = $pdo->prepare("SELECT encrypt_name(?) as encrypted_name");
+$stmt->execute([$userName]);
+$result = $stmt->fetch(PDO::FETCH_ASSOC);
+$pgEncryptedName = $result['encrypted_name'];
+
 // Сохраняем ответы и подсчитываем правильные
 foreach($questions as $question) {
     $questionId = $question['id'];
     $userAnswer = isset($userAnswers[$questionId]) ? (int)$userAnswers[$questionId] : 0;
     $correctAnswer = $question['correct_option'];
-    
-    // Сохраняем ответ в базу данных
+
+    // Сохраняем ответ в базу данных с шифрованным именем
     $stmt = $pdo->prepare("
-        INSERT INTO results (user_name, profession_id, question_id, user_answer) 
+        INSERT INTO results (encrypted_name, profession_id, question_id, user_answer) 
         VALUES (?, ?, ?, ?)
     ");
-    $stmt->execute([$userName, $professionId, $questionId, $userAnswer]);
+    $stmt->execute([$pgEncryptedName, $professionId, $questionId, $userAnswer]);
     
     if($userAnswer === $correctAnswer) {
         $correctAnswers++;

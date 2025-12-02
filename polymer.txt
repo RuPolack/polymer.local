@@ -1,0 +1,121 @@
+CREATE DATABASE polymer;
+
+-- Включаем расширение pgcrypto
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+-- Таблица профессий
+CREATE TABLE professions (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL
+);
+
+-- Таблица вопросов
+CREATE TABLE questions (
+    id SERIAL PRIMARY KEY,
+    profession_id INTEGER REFERENCES professions(id),
+    question_text TEXT NOT NULL,
+    option1 VARCHAR(255) NOT NULL,
+    option2 VARCHAR(255) NOT NULL,
+    option3 VARCHAR(255) NOT NULL,
+    option4 VARCHAR(255) NOT NULL,
+    correct_option INTEGER NOT NULL
+);
+
+-- Таблица результатов с шифрованными данными
+CREATE TABLE results (
+    id SERIAL PRIMARY KEY,
+    encrypted_name TEXT NOT NULL, -- Зашифрованное имя
+    profession_id INTEGER REFERENCES professions(id),
+    question_id INTEGER REFERENCES questions(id),
+    user_answer INTEGER NOT NULL,
+    answer_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Вставляем профессии
+INSERT INTO professions (name) VALUES 
+('Программист'),
+('Дизайнер'),
+('Маркетолог'),
+('Менеджер');
+
+-- Вставляем примеры вопросов для программиста
+INSERT INTO questions (profession_id, question_text, option1, option2, option3, option4, correct_option) VALUES 
+(1, 'Что такое HTML?', 'Язык разметки', 'Язык программирования', 'База данных', 'Фреймворк', 1),
+(1, 'Какой язык используется для стилизации веб-страниц?', 'JavaScript', 'Python', 'CSS', 'HTML', 3),
+(1, 'Что означает SQL?', 'Simple Query Language', 'Structured Query Language', 'Standard Query Language', 'System Query Language', 2),
+(1, 'Какой тег используется для создания ссылки в HTML?', '<link>', '<a>', '<href>', '<url>', 2),
+(1, 'Что такое переменная в программировании?', 'Константное значение', 'Именованная область памяти', 'Функция', 'Цикл', 2),
+(1, 'Что такое ООП?', 'Объектно-ориентированное программирование', 'Операционная система', 'Основы программирования', 'Открытый исходный код', 1),
+(1, 'Какой символ используется для комментариев в PHP?', '//', '/* */', '#', 'Все вышеперечисленные', 4);
+
+-- Вопросы для дизайнера
+INSERT INTO questions (profession_id, question_text, option1, option2, option3, option4, correct_option) VALUES 
+(2, 'Что такое RGB?', 'Модель цветов', 'Формат файла', 'Программа', 'Шрифт', 1),
+(2, 'Какой формат поддерживает прозрачность?', 'JPG', 'BMP', 'PNG', 'GIF', 3),
+(2, 'Что такое кернинг?', 'Размер шрифта', 'Межстрочный интервал', 'Межбуквенный интервал', 'Насыщенность шрифта', 3),
+(2, 'Что такое UX?', 'Пользовательский опыт', 'Универсальный дизайн', 'Управление проектами', 'Экспорт изображений', 1),
+(2, 'Какой инструмент для дизайна наиболее популярен?', 'Photoshop', 'Illustrator', 'Figma', 'Все вышеперечисленные', 4);
+
+-- Вопросы для маркетолога
+INSERT INTO questions (profession_id, question_text, option1, option2, option3, option4, correct_option) VALUES 
+(3, 'Что такое SEO?', 'Социальные сети', 'Поисковая оптимизация', 'Электронная почта', 'Баннерная реклама', 2),
+(3, 'Что означает KPI?', 'Ключевой показатель эффективности', 'Качество продукции', 'Клиентский сервис', 'Корпоративная политика', 1),
+(3, 'Что такое SMM?', 'Маркетинг в социальных сетях', 'Система управления', 'Сервис мониторинга', 'Стратегия продаж', 1),
+(3, 'Что такое конверсия?', 'Процент посетителей, совершивших целевое действие', 'Количество просмотров', 'Стоимость клика', 'Охват аудитории', 1);
+
+-- Вопросы для менеджера
+INSERT INTO questions (profession_id, question_text, option1, option2, option3, option4, correct_option) VALUES 
+(4, 'Что такое SWOT-анализ?', 'Метод оценки проектов', 'Система оплаты', 'Стиль управления', 'Тип контракта', 1),
+(4, 'Что такое дедлайн?', 'Бюджет проекта', 'Конечный срок', 'Начало проекта', 'Команда проекта', 2),
+(4, 'Что такое Agile?', 'Гибкая методология разработки', 'Жесткое планирование', 'Система отчетности', 'Метод бюджетирования', 1),
+(4, 'Что такое KPI в управлении?', 'Ключевые показатели эффективности', 'Корпоративная политика', 'Клиентская поддержка', 'Кадровые вопросы', 1);
+
+-- Создаем функцию для шифрования имени
+CREATE OR REPLACE FUNCTION encrypt_name(user_name TEXT)
+RETURNS TEXT AS $$
+DECLARE
+    encrypted_bytes BYTEA;
+BEGIN
+    -- Шифруем с использованием пароля 'ванпис'
+    SELECT pgp_sym_encrypt(user_name, 'ванпис') INTO encrypted_bytes;
+    -- Конвертируем в base64 для хранения как текст
+    RETURN encode(encrypted_bytes, 'base64');
+END;
+$$ LANGUAGE plpgsql;
+
+-- Создаем функцию для расшифровки имени
+CREATE OR REPLACE FUNCTION decrypt_name(encrypted_text TEXT)
+RETURNS TEXT AS $$
+DECLARE
+    encrypted_bytes BYTEA;
+BEGIN
+    -- Декодируем из base64
+    SELECT decode(encrypted_text, 'base64') INTO encrypted_bytes;
+    -- Расшифровываем с использованием пароля 'ванпис'
+    RETURN pgp_sym_decrypt(encrypted_bytes, 'ванпис');
+EXCEPTION
+    WHEN others THEN
+        RETURN 'Ошибка дешифровки';
+END;
+$$ LANGUAGE plpgsql;
+
+-- Создаем представление для просмотра расшифрованных данных
+CREATE OR REPLACE VIEW decrypted_results AS
+SELECT 
+    r.id,
+    decrypt_name(r.encrypted_name) as user_name,
+    r.profession_id,
+    r.question_id,
+    r.user_answer,
+    r.answer_date,
+    p.name as profession_name,
+    q.question_text
+FROM results r
+LEFT JOIN professions p ON r.profession_id = p.id
+LEFT JOIN questions q ON r.question_id = q.id;
+
+-- Создаем индексы для оптимизации запросов
+CREATE INDEX idx_results_encrypted ON results(encrypted_name);
+CREATE INDEX idx_results_date ON results(answer_date);
+CREATE INDEX idx_results_profession ON results(profession_id);
+CREATE INDEX idx_results_question ON results(question_id);
