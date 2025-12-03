@@ -1,7 +1,6 @@
 <?php //Регестрация для админа
-session_start();
 require_once 'resource/connect.php';
-
+session_start();
 ?>
 
 <!DOCTYPE html>

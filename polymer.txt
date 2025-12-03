@@ -119,3 +119,62 @@ CREATE INDEX idx_results_encrypted ON results(encrypted_name);
 CREATE INDEX idx_results_date ON results(answer_date);
 CREATE INDEX idx_results_profession ON results(profession_id);
 CREATE INDEX idx_results_question ON results(question_id);
+
+
+--Таблица Админ
+
+-- Таблица администраторов с шифрованными данными
+CREATE TABLE admin (
+    admin_id SERIAL PRIMARY KEY,
+    encrypted_name TEXT NOT NULL, -- Зашифрованное имя
+    encrypted_password TEXT NOT NULL, -- Зашифрованный пароль
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Создаем функцию для шифрования данных
+CREATE OR REPLACE FUNCTION encrypt_admin_data(data TEXT)
+RETURNS TEXT AS $$
+DECLARE
+    encrypted_bytes BYTEA;
+BEGIN
+    -- Шифруем с использованием пароля 'ванпис'
+    SELECT pgp_sym_encrypt(data, 'ванпис') INTO encrypted_bytes;
+    -- Конвертируем в base64 для хранения как текст
+    RETURN encode(encrypted_bytes, 'base64');
+END;
+$$ LANGUAGE plpgsql;
+
+-- Создаем функцию для расшифровки данных администратора
+CREATE OR REPLACE FUNCTION decrypt_admin_data(encrypted_text TEXT)
+RETURNS TEXT AS $$
+DECLARE
+    encrypted_bytes BYTEA;
+BEGIN
+    -- Декодируем из base64
+    SELECT decode(encrypted_text, 'base64') INTO encrypted_bytes;
+    -- Расшифровываем с использованием пароля 'ванпис'
+    RETURN pgp_sym_decrypt(encrypted_bytes, 'ванпис');
+EXCEPTION
+    WHEN others THEN
+        RETURN 'Ошибка дешифровки';
+END;
+$$ LANGUAGE plpgsql;
+
+-- Добавляем администратора admin, admin
+INSERT INTO admin (encrypted_name, encrypted_password) 
+VALUES (
+    encrypt_admin_data('admin'),
+    encrypt_admin_data('admin')
+);
+
+-- Создаем представление для просмотра расшифрованных данных администраторов
+CREATE OR REPLACE VIEW decrypted_admins AS
+SELECT 
+    admin_id,
+    decrypt_admin_data(encrypted_name) as admin_name,
+    decrypt_admin_data(encrypted_password) as admin_password,
+    created_at
+FROM admin;
+
+-- Создаем индекс для оптимизации
+CREATE INDEX idx_admin_encrypted_name ON admin(encrypted_name);
