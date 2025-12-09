@@ -16,6 +16,14 @@ $professions = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
+<?php //Кнопка админа ?>
+    <form id="admin" action="admin_panel/login_admin.php" method="GET">
+        <button type="submit" class="btn">Администратор</button>
+    </form>
+
+
+
     <div class="container">
         <div class="header">
             <h1>Тестирование по профессиям</h1>
