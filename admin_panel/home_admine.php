@@ -19,6 +19,12 @@ require_once '../resource/connect.php';
     </div>
 
     <div>
+        <form id="admin" action="../admin_panel/.." method="GET">
+            <button type="submit" class="btn">Просмотр результатов</button>
+        </form>
+    </div>
+
+    <div>
         <form id="admin" action="../admin_panel/change/change_password.php" method="GET">
             <button type="submit" class="btn">Поменять пароль</button>
         </form>
