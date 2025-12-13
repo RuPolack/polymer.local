@@ -41,7 +41,11 @@ try {
     $_SESSION['created_at'] = $user['created_at'];
 
     // Успешный вход
+<<<<<<< HEAD
     header('Location: ../admin_panel/home_admine.php');
+=======
+    header('Location: /polymer.local/admin_panel/home_admine.php');
+>>>>>>> a1d7e94d522069601bfbb5d3899272b0ac99ad23
     exit;
     
 } catch (PDOException $e) {
