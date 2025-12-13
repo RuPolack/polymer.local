@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'resource/connect.php';
+require_once '../resource/connect.php';
 
 if(!isset($_SESSION['quiz_data']) || !isset($_POST['answers'])) {
     header('Location: index.php');
@@ -52,7 +52,7 @@ unset($_SESSION['quiz_data']);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Результаты теста</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
     <div class="container">
@@ -76,7 +76,7 @@ unset($_SESSION['quiz_data']);
                     <div class="progress-bar" style="width: <?= $score ?>%"></div>
                 </div>
                 
-                <div style="padding-top: 20px;"><a href="index.php" class="btn">Пройти еще раз</a></div>
+                <div style="padding-top: 20px;"><a href="start_quiz.php" class="btn">Пройти еще раз</a></div>
             </div>
         </div>
     </div>

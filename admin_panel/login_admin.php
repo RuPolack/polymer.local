@@ -1,5 +1,5 @@
 <?php //Регестрация для админа
-require_once 'resource/connect.php';
+require_once '../resource/connect.php';
 session_start();
 ?>
 
@@ -9,11 +9,15 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Тестирование профессий</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
     
-
+    <form action="../admin_panel/log.php" method="post">
+            <input type="text" placeholder="Имя" name="name_admin" required>
+            <input type="text" placeholder="Пароль" name="pass_admin" required>
+            <button type="submit">Войти в систему</button>
+    </form>
     
 </body>
 </html>
