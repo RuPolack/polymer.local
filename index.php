@@ -1,19 +1,10 @@
-<?php
-session_start();
-require_once 'resource/connect.php';
-
-// Получаем список профессий
-$stmt = $pdo->query("SELECT * FROM professions");
-$professions = $stmt->fetchAll(PDO::FETCH_ASSOC);
-?>
-
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Тестирование профессий</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Добро пожаловать</title>
+    <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
 
@@ -26,42 +17,19 @@ $professions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <div class="container">
         <div class="header">
-            <h1>Тестирование по профессиям</h1>
-            <p>Выберите профессию и пройдите тест</p>
+            <h1>Добро пожаловать</h1>
         </div>
-        
-        <div class="content">
-            <form id="userForm">
-                <div class="form-group">
-                    <label for="userName">Ваше имя:</label>
-                    <input type="text" id="userName" name="userName" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="profession">Выберите профессию:</label>
-                    <select id="profession" name="profession" required>
-                        <option value="">-- Выберите профессию --</option>
-                        <?php foreach($professions as $profession): ?>
-                            <option value="<?= $profession['id'] ?>"><?= $profession['name'] ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-                
-                <button type="submit" class="btn">Начать тест</button>
-            </form>
+        <div class="content"> 
+            <div class="content-index">
+<div class="content-btn">
+    <a class="link_class" href="admin_panel/login_admin.php">Вход для администратора</a></div>
+<div class="content-btn">
+    <a class="link_class" href="quiz/start_quiz.php">Пройти тест</a></div>
+<div class="content-btn">
+    <a class="link_class" href="quiz/questions.php">Посмотреть вопросы для подготовки</a></div>
+
+            </div>
         </div>
     </div>
-
-    <script>
-        document.getElementById('userForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const userName = document.getElementById('userName').value;
-            const profession = document.getElementById('profession').value;
-            
-            if(userName && profession) {
-                window.location.href = `quiz.php?name=${encodeURIComponent(userName)}&profession=${profession}`;
-            }
-        });
-    </script>
 </body>
 </html>

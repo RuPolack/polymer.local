@@ -9,7 +9,11 @@ require_once '../resource/connect.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Админ панель</title>
+<<<<<<< HEAD
+    <link rel="stylesheet" href="../css/styles.css">
+=======
     <link rel="stylesheet" href="styles.css">
+>>>>>>> a1d7e94d522069601bfbb5d3899272b0ac99ad23
 </head>
 <body>
 
