@@ -3,7 +3,7 @@ session_start();
 require_once '../resource/connect.php';
 
 if(!isset($_GET['name']) || !isset($_GET['profession'])) {
-    header('Location: index.php');
+    header('Location: start_quiz.php');
     exit();
 }
 
