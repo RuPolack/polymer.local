@@ -28,6 +28,13 @@ require_once '../resource/connect.php';
             </form>
         </div>
 
+        <!-- Просмотр результатов -->
+        <div>
+            <form id="2" action="../admin_panel/actions/view_results.php" method="GET">
+                <button type="submit" class="btn">Просмотр результатов</button>
+            </form>
+        </div>
+
         <!-- Управление вопросами -->
         <div>
             <form action="../admin_panel/actions/add_question.php" method="GET">
@@ -67,7 +74,7 @@ require_once '../resource/connect.php';
 
         <!-- Главная -->
         <div>
-            <form action="../home.php" method="GET">
+            <form action="../index.php" method="GET">
                 <button type="submit" class="btn">Вернуться на главную страницу</button>
             </form>
         </div>
