@@ -119,8 +119,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
         
         <div>
-            <a href="change_password.php">Сменить пароль</a>
-            <a href="../home_admine.php">Вернуться</a>
+            <form id="home_admine" action="change_password.php" method="GET">
+                <button type="submit" class="btn">Сменить пароль</button>
+            </form>
+
+            <form id="home_admine" action="../home_admine.php" method="GET">
+                <button type="submit" class="btn">Вернуться назад</button>
+            </form>
         </div>
     </div>
 </body>

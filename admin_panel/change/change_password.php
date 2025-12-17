@@ -98,9 +98,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
         
         <div>
-            <a href="change_name.php">Сменить имя</a>
-            <a href="../home_admine.php">Вернуться</a>
+            <form id="home_admine" action="change_name.php" method="GET">
+                <button type="submit" class="btn">Сменить имя</button>
+            </form>
+
+            <form id="home_admine" action="../home_admine.php" method="GET">
+                <button type="submit" class="btn">Вернуться назад</button>
+            </form>
         </div>
+        
     </div>
 </body>
 </html>

@@ -141,7 +141,7 @@ try {
 </head>
 <body>
     <div>
-        <form id="1" action="../home_admine.php" method="GET">
+        <form id="home_admine" action="../home_admine.php" method="GET">
             <button type="submit" class="btn">Вернуться назад</button>
         </form>
     </div>
