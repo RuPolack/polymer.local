@@ -9,11 +9,7 @@ require_once '../resource/connect.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Админ панель</title>
-<<<<<<< HEAD
-    <link rel="stylesheet" href="../css/styles.css">
-=======
-    <link rel="stylesheet" href="styles.css">
->>>>>>> a1d7e94d522069601bfbb5d3899272b0ac99ad23
+
 </head>
 <body>
 
@@ -30,11 +26,8 @@ require_once '../resource/connect.php';
     </div>
 
     <div>
-        <form id="3" action="../admin_panel/change/change_password.php" method="GET">
-            <button type="submit" class="btn">Поменять пароль</button>
-        </form>
-        <form id="4" action="../admin_panel/change/change_name.php" method="GET">
-            <button type="submit" class="btn">Поменять имя</button>
+        <form id="3" action="../admin_panel/change/change_name_or_password.php" method="GET">
+            <button type="submit" class="btn">Поменять пароль или имя</button>
         </form>
     </div>
 
