@@ -33,64 +33,83 @@ try {
 
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
-<meta charset="UTF-8">
-<title>Просмотр записей</title>
+    <meta charset="UTF-8">
+    <title>Просмотр записей</title>
+    <link rel="stylesheet" href="../css_abmin/css_abmin.css">
 </head>
+
 <body>
 
-<h1>Просмотр записей</h1>
+    <h1>Просмотр записей</h1>
 
-<!-- Кнопки -->
-<div>
-    <a href="?view=professions"><button>Профессии</button></a>
-    <a href="?view=questions"><button>Вопросы</button></a>
-</div>
+    <!-- Кнопки -->
+    <div>
+        <a href="?view=professions" class="btn"><button>Профессии</button></a>
+        <a href="?view=questions" class="btn"><button>Вопросы</button></a>
+    </div>
 
-<hr>
+    <hr>
 
-<?php if ($error) echo "<div>Ошибка: ".htmlspecialchars($error)."</div>"; ?>
+    <?php if ($error) echo "<div>Ошибка: " . htmlspecialchars($error) . "</div>"; ?>
 
-<?php if ($view === 'professions'): ?>
-<h2>Профессии</h2>
-<?php if($professions): ?>
-<table border="1" cellpadding="5" cellspacing="0">
-<tr><th>ID</th><th>Название профессии</th></tr>
-<?php foreach($professions as $p): ?>
-<tr><td><?php echo $p['id']; ?></td><td><?php echo htmlspecialchars($p['name']); ?></td></tr>
-<?php endforeach; ?>
-</table>
-<?php else: ?>
-<p>Нет профессий.</p>
-<?php endif; ?>
+    <?php if ($view === 'professions'): ?>
+        <h2>Профессии</h2>
+        <?php if ($professions): ?>
+            <table border="2" cellpadding="5" cellspacing="0">
+                <tr>
+                    <th>ID</th>
+                    <th>Название профессии</th>
+                </tr>
+                <?php foreach ($professions as $p): ?>
+                    <tr>
+                        <td><?php echo $p['id']; ?></td>
+                        <td><?php echo htmlspecialchars($p['name']); ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
+        <?php else: ?>
+            <p>Нет профессий.</p>
+        <?php endif; ?>
 
-<?php elseif ($view === 'questions'): ?>
-<h2>Вопросы</h2>
-<?php if($questions): ?>
-<table border="1" cellpadding="5" cellspacing="0">
-<tr><th>ID</th><th>Профессия</th><th>Вопрос</th><th>Вариант1</th><th>Вариант2</th><th>Вариант3</th><th>Вариант4</th><th>Правильный вариант</th></tr>
-<?php foreach($questions as $q): ?>
-<tr>
-<td><?php echo $q['id']; ?></td>
-<td><?php echo htmlspecialchars($q['profession_name']); ?></td>
-<td><?php echo htmlspecialchars($q['question_text']); ?></td>
-<td><?php echo htmlspecialchars($q['option1']); ?></td>
-<td><?php echo htmlspecialchars($q['option2']); ?></td>
-<td><?php echo htmlspecialchars($q['option3']); ?></td>
-<td><?php echo htmlspecialchars($q['option4']); ?></td>
-<td><?php echo $q['correct_option']; ?></td>
-</tr>
-<?php endforeach; ?>
-</table>
-<?php else: ?>
-<p>Нет вопросов.</p>
-<?php endif; ?>
-<?php endif; ?>
+    <?php elseif ($view === 'questions'): ?>
+        <h2>Вопросы</h2>
+        <?php if ($questions): ?>
+            <table border="2" cellpadding="5" cellspacing="0">
+                <tr>
+                    <th>ID</th>
+                    <th>Профессия</th>
+                    <th>Вопрос</th>
+                    <th>Вариант1</th>
+                    <th>Вариант2</th>
+                    <th>Вариант3</th>
+                    <th>Вариант4</th>
+                    <th>Правильный вариант</th>
+                </tr>
+                <?php foreach ($questions as $q): ?>
+                    <tr>
+                        <td><?php echo $q['id']; ?></td>
+                        <td><?php echo htmlspecialchars($q['profession_name']); ?></td>
+                        <td><?php echo htmlspecialchars($q['question_text']); ?></td>
+                        <td><?php echo htmlspecialchars($q['option1']); ?></td>
+                        <td><?php echo htmlspecialchars($q['option2']); ?></td>
+                        <td><?php echo htmlspecialchars($q['option3']); ?></td>
+                        <td><?php echo htmlspecialchars($q['option4']); ?></td>
+                        <td><?php echo $q['correct_option']; ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
+        <?php else: ?>
+            <p>Нет вопросов.</p>
+        <?php endif; ?>
+    <?php endif; ?>
 
-<br>
-<form action="../home_admine.php" method="GET">
-    <button type="submit">Вернуться назад</button>
-</form>
+    <br>
+    <form action="../home_admine.php" method="GET">
+        <button type="submit" class="btn">Вернуться назад</button>
+    </form>
 
 </body>
+
 </html>

@@ -53,68 +53,72 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_profession_id'
 
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <title>Редактировать профессию</title>
+    <link rel="stylesheet" href="../css_abmin/css_abmin.css">
 </head>
+
 <body>
 
-<h1>Редактирование профессии</h1>
+    <h1>Редактирование профессии</h1>
 
-<?php if (!empty($message)): ?>
-    <div>
-        <strong><?php echo htmlspecialchars($message); ?></strong>
-    </div>
-    <br>
-<?php endif; ?>
+    <?php if (!empty($message)): ?>
+        <div>
+            <strong><?php echo htmlspecialchars($message); ?></strong>
+        </div>
+        <br>
+    <?php endif; ?>
 
-<form action="" method="POST">
-    <div>
-        <label for="profession_id_select">Выберите профессию для редактирования:</label><br>
-        <select id="profession_id_select" name="profession_id_select" required>
-            <option value="">Выберите профессию</option>
-            <?php foreach ($professions as $p): ?>
-                <option value="<?php echo $p['id']; ?>"><?php echo htmlspecialchars($p['name']); ?></option>
-            <?php endforeach; ?>
-        </select>
-    </div>
-    <br>
+    <form action="" method="POST">
+        <div>
+            <label for="profession_id_select">Выберите профессию для редактирования:</label><br>
+            <select id="profession_id_select" name="profession_id_select" required>
+                <option value="">Выберите профессию</option>
+                <?php foreach ($professions as $p): ?>
+                    <option value="<?php echo $p['id']; ?>"><?php echo htmlspecialchars($p['name']); ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <br>
 
-    <div>
-        <label for="new_profession_name">Новое название профессии:</label><br>
-        <input type="text" id="new_profession_name" name="new_profession_name" required>
-    </div>
-    <br>
+        <div>
+            <label for="new_profession_name">Новое название профессии:</label><br>
+            <input type="text" id="new_profession_name" name="new_profession_name" required>
+        </div>
+        <br>
 
-    <div>
-        <input type="submit" value="Обновить профессию">
-        <input type="reset" value="Очистить">
-    </div>
-</form>
-
-<h2>Удаление профессии</h2>
-<form action="" method="POST" onsubmit="return confirm('Вы уверены, что хотите удалить эту профессию?');">
-    <div>
-        <label for="delete_profession_id">Выберите профессию для удаления:</label><br>
-        <select id="delete_profession_id" name="delete_profession_id" required>
-            <option value="">Выберите профессию</option>
-            <?php foreach ($professions as $p): ?>
-                <option value="<?php echo $p['id']; ?>"><?php echo htmlspecialchars($p['name']); ?></option>
-            <?php endforeach; ?>
-        </select>
-    </div>
-    <br>
-
-    <div>
-        <input type="submit" value="Удалить профессию" style="color: red;">
-    </div>
-</form>
-
-<div>
-    <form id="home_admine" action="../home_admine.php" method="GET">
-        <button type="submit" class="btn">Вернуться назад</button>
+        <div>
+            <input type="submit" value="Обновить профессию">
+            <input type="reset" value="Очистить">
+        </div>
     </form>
-</div>
+
+    <h2>Удаление профессии</h2>
+    <form action="" method="POST" onsubmit="return confirm('Вы уверены, что хотите удалить эту профессию?');">
+        <div>
+            <label for="delete_profession_id">Выберите профессию для удаления:</label><br>
+            <select id="delete_profession_id" name="delete_profession_id" required>
+                <option value="">Выберите профессию</option>
+                <?php foreach ($professions as $p): ?>
+                    <option value="<?php echo $p['id']; ?>"><?php echo htmlspecialchars($p['name']); ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <br>
+
+        <div>
+            <input type="submit" value="Удалить профессию">
+        </div>
+    </form>
+
+    <div>
+        <form id="home_admine" action="../home_admine.php" method="GET">
+            <button type="submit" class="btn">Вернуться назад</button>
+        </form>
+    </div>
 
 </body>
+
 </html>

@@ -1,6 +1,6 @@
 <?php // Добавить вопрос
 session_start();
-require_once '../../resource/connect.php';?>
+require_once '../../resource/connect.php'; ?>
 
 <?php
 $message = "";
@@ -59,10 +59,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_question_id'])
 
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <title>Редактировать вопрос</title>
+    <link rel="stylesheet" href="../css_abmin/css_abmin.css">
 </head>
+
 <body>
 
     <h1>Редактирование вопроса</h1>
@@ -85,37 +88,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_question_id'])
             </select>
         </div>
         <br>
-        
+
         <div>
             <label for="edit_question_text">Текст вопроса:</label><br>
             <textarea id="edit_question_text" name="edit_question_text" rows="3" cols="50" required></textarea>
         </div>
         <br>
-        
+
         <div>
             <label for="edit_option1">Вариант ответа 1:</label><br>
             <input type="text" id="edit_option1" name="edit_option1" required>
         </div>
         <br>
-        
+
         <div>
             <label for="edit_option2">Вариант ответа 2:</label><br>
             <input type="text" id="edit_option2" name="edit_option2" required>
         </div>
         <br>
-        
+
         <div>
             <label for="edit_option3">Вариант ответа 3:</label><br>
             <input type="text" id="edit_option3" name="edit_option3" required>
         </div>
         <br>
-        
+
         <div>
             <label for="edit_option4">Вариант ответа 4:</label><br>
             <input type="text" id="edit_option4" name="edit_option4" required>
         </div>
         <br>
-        
+
         <div>
             <label for="edit_correct_option">Правильный вариант:</label><br>
             <select id="edit_correct_option" name="edit_correct_option" required>
@@ -127,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_question_id'])
             </select>
         </div>
         <br>
-        
+
         <div>
             <input type="submit" value="Обновить вопрос">
             <input type="reset" value="Очистить форму">
@@ -146,9 +149,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_question_id'])
             </select>
         </div>
         <br>
-        
+
         <div>
-            <input type="submit" value="Удалить вопрос" style="color: red;">
+            <input type="submit" value="Удалить вопрос">
         </div>
     </form>
 
@@ -158,4 +161,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_question_id'])
         </form>
     </div>
 </body>
+
 </html>

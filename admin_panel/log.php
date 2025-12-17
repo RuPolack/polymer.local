@@ -22,14 +22,14 @@ try {
     ]);
 
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+
     // Проверка пользователя и пароля
-    if(!$user) {
+    if (!$user) {
         echo "Ошибка входа не верно указаны данные";
         exit;
     }
-    
-    if($pass_admin !== $user['admin_password']){
+
+    if ($pass_admin !== $user['admin_password']) {
         echo "Ошибка входа не верно указаны данные";
         exit;
     }
@@ -45,7 +45,6 @@ try {
     header('Location: ../admin_panel/home_admine.php');
 
     exit;
-    
 } catch (PDOException $e) {
     die("Ошибка входа: " . $e->getMessage());
 }

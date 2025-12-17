@@ -19,19 +19,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $where_conditions .= " AND r.profession_id = ?";
         $params[] = $_POST['filter_profession'];
     }
-    
+
     // Фильтр по дате от
     if (!empty($_POST['filter_date_from'])) {
         $where_conditions .= " AND r.answer_date >= ?";
         $params[] = $_POST['filter_date_from'] . ' 00:00:00';
     }
-    
+
     // Фильтр по дате до
     if (!empty($_POST['filter_date_to'])) {
         $where_conditions .= " AND r.answer_date <= ?";
         $params[] = $_POST['filter_date_to'] . ' 23:59:59';
     }
-    
+
     // Сохраняем фильтры в сессию
     $_SESSION['filters'] = [
         'profession' => $_POST['filter_profession'] ?? '',
@@ -43,17 +43,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Если GET запрос и есть сохраненные фильтры
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_SESSION['filters'])) {
     $filters = $_SESSION['filters'];
-    
+
     if (!empty($filters['profession'])) {
         $where_conditions .= " AND r.profession_id = ?";
         $params[] = $filters['profession'];
     }
-    
+
     if (!empty($filters['date_from'])) {
         $where_conditions .= " AND r.answer_date >= ?";
         $params[] = $filters['date_from'] . ' 00:00:00';
     }
-    
+
     if (!empty($filters['date_to'])) {
         $where_conditions .= " AND r.answer_date <= ?";
         $params[] = $filters['date_to'] . ' 23:59:59';
@@ -112,7 +112,6 @@ try {
     $stmt_correct = $pdo->prepare($sql_correct);
     $stmt_correct->execute($params);
     $correct_count = $stmt_correct->fetch(PDO::FETCH_ASSOC) ?: ['correct_count' => 0];
-
 } catch (PDOException $e) {
     $error = "Ошибка при получении данных: " . $e->getMessage();
 }
@@ -128,10 +127,13 @@ try {
 
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <title>Просмотр результатов</title>
+    <link rel="stylesheet" href="../css_abmin/css_abmin.css">
 </head>
+
 <body>
     <div>
         <form id="home_admine" action="../home_admine.php" method="GET">
@@ -140,20 +142,20 @@ try {
     </div>
 
     <h1>Просмотр результатов тестирования</h1>
-    
+
     <?php if (isset($error)): ?>
         <div style="color: red; margin: 10px 0; padding: 10px; border: 1px solid red;">
             <strong>Ошибка:</strong> <?php echo htmlspecialchars($error); ?>
         </div>
     <?php endif; ?>
-    
+
     <form method="POST" action="">
         <div>
             <label for="filter_profession">Фильтр по профессии:</label><br>
             <select id="filter_profession" name="filter_profession">
                 <option value="">Все профессии</option>
                 <?php foreach ($professions as $profession): ?>
-                    <option value="<?php echo $profession['id']; ?>" 
+                    <option value="<?php echo $profession['id']; ?>"
                         <?php echo (isset($_SESSION['filters']['profession']) && $_SESSION['filters']['profession'] == $profession['id']) ? 'selected' : ''; ?>>
                         <?php echo htmlspecialchars($profession['name']); ?>
                     </option>
@@ -161,35 +163,35 @@ try {
             </select>
         </div>
         <br>
-        
+
         <div>
             <label for="filter_date_from">Дата от:</label>
-            <input type="date" id="filter_date_from" name="filter_date_from" 
-                   value="<?php echo isset($_SESSION['filters']['date_from']) ? htmlspecialchars($_SESSION['filters']['date_from']) : ''; ?>">
-            
+            <input type="date" id="filter_date_from" name="filter_date_from"
+                value="<?php echo isset($_SESSION['filters']['date_from']) ? htmlspecialchars($_SESSION['filters']['date_from']) : ''; ?>">
+
             <label for="filter_date_to">Дата до:</label>
-            <input type="date" id="filter_date_to" name="filter_date_to" 
-                   value="<?php echo isset($_SESSION['filters']['date_to']) ? htmlspecialchars($_SESSION['filters']['date_to']) : ''; ?>">
+            <input type="date" id="filter_date_to" name="filter_date_to"
+                value="<?php echo isset($_SESSION['filters']['date_to']) ? htmlspecialchars($_SESSION['filters']['date_to']) : ''; ?>">
         </div>
         <br>
-        
+
         <div>
             <input type="submit" value="Применить фильтры">
         </div>
     </form>
-    
+
     <br>
     <hr>
-    
+
     <h2>Статистика</h2>
     <p>Всего записей: <?php echo $total_count['total']; ?></p>
     <p>Правильных ответов: <?php echo $correct_count['correct_count']; ?></p>
     <?php if ($total_count['total'] > 0): ?>
         <p>Процент правильных: <?php echo round(($correct_count['correct_count'] / $total_count['total']) * 100, 2); ?>%</p>
     <?php endif; ?>
-    
+
     <h2>Результаты тестирования</h2>
-    
+
     <div class="tabl">
         <table border="2" cellpadding="10" cellspacing="0">
             <tr>
@@ -202,7 +204,7 @@ try {
                 <th>Статус</th>
                 <th>Дата и время</th>
             </tr>
-            
+
             <?php if (count($results) > 0): ?>
                 <?php foreach ($results as $result): ?>
                     <tr>
@@ -213,7 +215,7 @@ try {
                         <td><?php echo htmlspecialchars($result['user_answer']); ?></td>
                         <td><?php echo htmlspecialchars($result['correct_option']); ?></td>
                         <td>
-                            <?php 
+                            <?php
                             if ($result['user_answer'] == $result['correct_option']) {
                                 echo '✓ Верно';
                             } else {
@@ -233,4 +235,5 @@ try {
     </div>
 
 </body>
+
 </html>

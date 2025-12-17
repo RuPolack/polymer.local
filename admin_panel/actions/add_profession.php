@@ -24,10 +24,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <title>Добавление профессии</title>
+    <link rel="stylesheet" href="../css_abmin/css_abmin.css">
 </head>
+
 <body>
 
     <h1>Добавление новой профессии</h1>
@@ -58,4 +61,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
 </body>
+
 </html>

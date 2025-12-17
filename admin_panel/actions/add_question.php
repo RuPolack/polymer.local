@@ -42,10 +42,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <title>Добавить вопрос</title>
+    <link rel="stylesheet" href="../css_abmin/css_abmin.css">
 </head>
+
 <body>
 
     <h1>Добавление нового вопроса</h1>
@@ -70,49 +73,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </select>
         </div>
         <br>
-        
+
         <div>
             <label for="question_text">Текст вопроса:</label><br>
             <textarea id="question_text" name="question_text" rows="3" cols="50" required><?php echo htmlspecialchars($_POST['question_text'] ?? ''); ?></textarea>
         </div>
         <br>
-        
+
         <div>
             <label for="option1">Вариант ответа 1:</label><br>
             <input type="text" id="option1" name="option1" value="<?php echo htmlspecialchars($_POST['option1'] ?? ''); ?>" required>
         </div>
         <br>
-        
+
         <div>
             <label for="option2">Вариант ответа 2:</label><br>
             <input type="text" id="option2" name="option2" value="<?php echo htmlspecialchars($_POST['option2'] ?? ''); ?>" required>
         </div>
         <br>
-        
+
         <div>
             <label for="option3">Вариант ответа 3:</label><br>
             <input type="text" id="option3" name="option3" value="<?php echo htmlspecialchars($_POST['option3'] ?? ''); ?>" required>
         </div>
         <br>
-        
+
         <div>
             <label for="option4">Вариант ответа 4:</label><br>
             <input type="text" id="option4" name="option4" value="<?php echo htmlspecialchars($_POST['option4'] ?? ''); ?>" required>
         </div>
         <br>
-        
+
         <div>
             <label for="correct_option">Правильный вариант:</label><br>
             <select id="correct_option" name="correct_option" required>
                 <option value="">Выберите правильный ответ</option>
-                <option value="1" <?php if(($_POST['correct_option'] ?? '')==='1') echo 'selected'; ?>>Вариант 1</option>
-                <option value="2" <?php if(($_POST['correct_option'] ?? '')==='2') echo 'selected'; ?>>Вариант 2</option>
-                <option value="3" <?php if(($_POST['correct_option'] ?? '')==='3') echo 'selected'; ?>>Вариант 3</option>
-                <option value="4" <?php if(($_POST['correct_option'] ?? '')==='4') echo 'selected'; ?>>Вариант 4</option>
+                <option value="1" <?php if (($_POST['correct_option'] ?? '') === '1') echo 'selected'; ?>>Вариант 1</option>
+                <option value="2" <?php if (($_POST['correct_option'] ?? '') === '2') echo 'selected'; ?>>Вариант 2</option>
+                <option value="3" <?php if (($_POST['correct_option'] ?? '') === '3') echo 'selected'; ?>>Вариант 3</option>
+                <option value="4" <?php if (($_POST['correct_option'] ?? '') === '4') echo 'selected'; ?>>Вариант 4</option>
             </select>
         </div>
         <br>
-        
+
         <div>
             <input type="submit" value="Добавить вопрос">
             <input type="reset" value="Очистить форму">
@@ -125,4 +128,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
     </div>
 </body>
+
 </html>
