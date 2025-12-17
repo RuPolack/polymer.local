@@ -1,6 +1,36 @@
-<? //Добавить вопрос
+<?php // Добавить вопрос
 session_start();
-require_once 'resource/connect.php';?>
+require_once '../../resource/connect.php';
+
+$message = "";
+
+// Проверка отправки формы
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $profession_id = $_POST['profession_id'] ?? '';
+    $question_text = $_POST['question_text'] ?? '';
+    $option1 = $_POST['option1'] ?? '';
+    $option2 = $_POST['option2'] ?? '';
+    $option3 = $_POST['option3'] ?? '';
+    $option4 = $_POST['option4'] ?? '';
+    $correct_option = $_POST['correct_option'] ?? '';
+
+    if ($profession_id && $question_text && $option1 && $option2 && $option3 && $option4 && $correct_option) {
+        try {
+            $sql = "INSERT INTO questions (profession_id, question_text, option1, option2, option3, option4, correct_option)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)";
+            
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([$profession_id, $question_text, $option1, $option2, $option3, $option4, $correct_option]);
+
+            $message = "Вопрос успешно добавлен!";
+        } catch (PDOException $e) {
+            $message = "Ошибка при добавлении: " . $e->getMessage();
+        }
+    } else {
+        $message = "Заполните все поля формы.";
+    }
+}
+?>
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -9,8 +39,16 @@ require_once 'resource/connect.php';?>
     <title>Добавить вопрос</title>
 </head>
 <body>
+
     <h1>Добавление нового вопроса</h1>
-    
+
+    <?php if (!empty($message)): ?>
+        <div>
+            <strong><?php echo htmlspecialchars($message); ?></strong>
+        </div>
+        <br>
+    <?php endif; ?>
+
     <form action="" method="POST">
         <div>
             <label for="profession_id">Профессия:</label><br>
@@ -71,6 +109,11 @@ require_once 'resource/connect.php';?>
             <input type="reset" value="Очистить форму">
         </div>
     </form>
-    
+
+    <div>
+        <form id="home_admine" action="../home_admine.php" method="GET">
+            <button type="submit" class="btn">Вернуться назад</button>
+        </form>
+    </div>
 </body>
 </html>

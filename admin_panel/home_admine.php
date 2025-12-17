@@ -42,7 +42,7 @@ require_once '../resource/connect.php';
             <button type="submit" class="btn">Добавить вопрос</button>
         </form>
         <form id="6" action="../admin_panel/actions/edit_question.php" method="GET">
-            <button type="submit" class="btn">Редактировать вопрос</button>
+            <button type="submit" class="btn">Редактировать удалить или вопрос</button>
         </form>
     </div>
 
@@ -51,7 +51,7 @@ require_once '../resource/connect.php';
             <button type="submit" class="btn">Добавить профессию</button>
         </form>
         <form id="8" action="../admin_panel/actions/edit_profession.php" method="GET">
-            <button type="submit" class="btn">Редактировать профессию</button>
+            <button type="submit" class="btn">Редактировать удалить или профессию</button>
         </form>
     </div>
 

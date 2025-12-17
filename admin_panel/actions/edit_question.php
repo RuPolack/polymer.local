@@ -1,6 +1,61 @@
-<? //Редактировать вопрос
+<?php // Добавить вопрос
 session_start();
-require_once 'resource/connect.php';?>
+require_once '../../resource/connect.php';?>
+
+<?php
+$message = "";
+
+// Получаем список вопросов из БД
+try {
+    $stmt = $pdo->query("SELECT id, question_text FROM questions ORDER BY id");
+    $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    $questions = [];
+    $message = "Ошибка при получении вопросов: " . $e->getMessage();
+}
+
+// Редактирование вопроса
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['question_id_select'])) {
+    $question_id = $_POST['question_id_select'];
+    $edit_question_text = $_POST['edit_question_text'] ?? '';
+    $edit_option1 = $_POST['edit_option1'] ?? '';
+    $edit_option2 = $_POST['edit_option2'] ?? '';
+    $edit_option3 = $_POST['edit_option3'] ?? '';
+    $edit_option4 = $_POST['edit_option4'] ?? '';
+    $edit_correct_option = $_POST['edit_correct_option'] ?? '';
+
+    if ($edit_question_text && $edit_option1 && $edit_option2 && $edit_option3 && $edit_option4 && $edit_correct_option) {
+        try {
+            $sql = "UPDATE questions
+                    SET question_text = ?, option1 = ?, option2 = ?, option3 = ?, option4 = ?, correct_option = ?
+                    WHERE id = ?";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([$edit_question_text, $edit_option1, $edit_option2, $edit_option3, $edit_option4, $edit_correct_option, $question_id]);
+            $message = "Вопрос успешно обновлен!";
+        } catch (PDOException $e) {
+            $message = "Ошибка при обновлении: " . $e->getMessage();
+        }
+    } else {
+        $message = "Заполните все поля для редактирования.";
+    }
+}
+
+// Удаление вопроса
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_question_id'])) {
+    $delete_question_id = $_POST['delete_question_id'];
+
+    try {
+        $stmt = $pdo->prepare("DELETE FROM questions WHERE id = ?");
+        $stmt->execute([$delete_question_id]);
+        $message = "Вопрос успешно удален!";
+        // Обновляем список вопросов после удаления
+        $stmt = $pdo->query("SELECT id, question_text FROM questions ORDER BY id");
+        $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        $message = "Ошибка при удалении: " . $e->getMessage();
+    }
+}
+?>
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -9,17 +64,24 @@ require_once 'resource/connect.php';?>
     <title>Редактировать вопрос</title>
 </head>
 <body>
+
     <h1>Редактирование вопроса</h1>
-    
+
+    <?php if (!empty($message)): ?>
+        <div>
+            <strong><?php echo htmlspecialchars($message); ?></strong>
+        </div>
+        <br>
+    <?php endif; ?>
+
     <form action="" method="POST">
         <div>
             <label for="question_id_select">Выберите вопрос для редактирования:</label><br>
             <select id="question_id_select" name="question_id_select" required>
                 <option value="">Выберите вопрос</option>
-                <option value="1">Что такое HTML?</option>
-                <option value="2">Какой язык используется для стилизации веб-страниц?</option>
-                <option value="3">Что означает SQL?</option>
-                <option value="4">Какой тег используется для создания ссылки в HTML?</option>
+                <?php foreach ($questions as $q): ?>
+                    <option value="<?php echo $q['id']; ?>"><?php echo htmlspecialchars($q['question_text']); ?></option>
+                <?php endforeach; ?>
             </select>
         </div>
         <br>
@@ -71,17 +133,16 @@ require_once 'resource/connect.php';?>
             <input type="reset" value="Очистить форму">
         </div>
     </form>
-    
+
     <h2>Удаление вопроса</h2>
     <form action="" method="POST" onsubmit="return confirm('Вы уверены, что хотите удалить этот вопрос?');">
         <div>
             <label for="delete_question_id">Выберите вопрос для удаления:</label><br>
             <select id="delete_question_id" name="delete_question_id" required>
                 <option value="">Выберите вопрос</option>
-                <option value="1">Что такое HTML?</option>
-                <option value="2">Какой язык используется для стилизации веб-страниц?</option>
-                <option value="3">Что означает SQL?</option>
-                <option value="4">Какой тег используется для создания ссылки в HTML?</option>
+                <?php foreach ($questions as $q): ?>
+                    <option value="<?php echo $q['id']; ?>"><?php echo htmlspecialchars($q['question_text']); ?></option>
+                <?php endforeach; ?>
             </select>
         </div>
         <br>
@@ -90,6 +151,11 @@ require_once 'resource/connect.php';?>
             <input type="submit" value="Удалить вопрос" style="color: red;">
         </div>
     </form>
-    
+
+    <div>
+        <form id="home_admine" action="../home_admine.php" method="GET">
+            <button type="submit" class="btn">Вернуться назад</button>
+        </form>
+    </div>
 </body>
 </html>
