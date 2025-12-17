@@ -8,26 +8,28 @@
 </head>
 <body>
 
-<?php //Кнопка админа ?>
-    <form id="admin" action="admin_panel/login_admin.php" method="GET">
-        <button type="submit" class="btn">Администратор</button>
-    </form>
-
-
-
     <div class="container">
         <div class="header">
             <h1>Добро пожаловать</h1>
         </div>
         <div class="content"> 
             <div class="content-index">
-<div class="content-btn">
-    <a class="link_class" href="admin_panel/login_admin.php">Вход для администратора</a></div>
-<div class="content-btn">
-    <a class="link_class" href="quiz/start_quiz.php">Пройти тест</a></div>
-<div class="content-btn">
-    <a class="link_class" href="quiz/questions.php">Посмотреть вопросы для подготовки</a></div>
 
+    <div class="content-btn">
+    <form action="admin_panel/login_admin.php" method="GET">
+        <button type="submit" class="btn">Вход для администратора</button>
+    </form></div>
+
+    <div class="content-btn">
+    <form action="quiz/start_quiz.php" method="GET">
+        <button type="submit" class="btn">Пройти тест</button>
+    </form></div>
+
+    <div class="content-btn">
+    <form action="quiz/questions.php" method="GET">
+        <button type="submit" class="btn">Посмотреть вопросы для подготовки</button>
+    </form></div>
+    
             </div>
         </div>
     </div>

@@ -3,7 +3,7 @@ session_start();
 require_once '../resource/connect.php';
 
 if(!isset($_SESSION['quiz_data']) || !isset($_POST['answers'])) {
-    header('Location: index.php');
+    header('Location: start_quiz.php');
     exit();
 }
 
