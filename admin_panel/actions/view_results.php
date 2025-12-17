@@ -13,13 +13,6 @@ $professions = [];
 $where_conditions = "1=1";
 $params = [];
 
-// Обработка сброса фильтров
-if (isset($_GET['clear'])) {
-    unset($_SESSION['filters']);
-    header('Location: ' . $_SERVER['PHP_SELF']);
-    exit();
-}
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Фильтр по профессии
     if (!empty($_POST['filter_profession'])) {
@@ -182,7 +175,6 @@ try {
         
         <div>
             <input type="submit" value="Применить фильтры">
-            <input type="button" value="Сбросить все" onclick="location.href='?clear=true'">
         </div>
     </form>
     

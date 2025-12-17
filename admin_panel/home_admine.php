@@ -55,8 +55,11 @@ require_once '../resource/connect.php';
         </form>
     </div>
 
-
-
+    <div>
+        <form id="7" action="../admin_panel/actions/view_records.php" method="GET">
+            <button type="submit" class="btn">Просмотр профессий и вопросов</button>
+        </form>
+    </div>
 
     Приветствие и кнопки что делать добавлять или 
     редактировать профессию и добавить или редактировать вопросы и ответы
