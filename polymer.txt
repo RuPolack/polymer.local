@@ -76,8 +76,8 @@ RETURNS TEXT AS $$
 DECLARE
     encrypted_bytes BYTEA;
 BEGIN
-    -- Шифруем с использованием пароля 'ванпис'
-    SELECT pgp_sym_encrypt(user_name, 'ванпис') INTO encrypted_bytes;
+    -- Шифруем с использованием пароля 'polymer'
+    SELECT pgp_sym_encrypt(user_name, 'polymer') INTO encrypted_bytes;
     -- Конвертируем в base64 для хранения как текст
     RETURN encode(encrypted_bytes, 'base64');
 END;
@@ -91,8 +91,8 @@ DECLARE
 BEGIN
     -- Декодируем из base64
     SELECT decode(encrypted_text, 'base64') INTO encrypted_bytes;
-    -- Расшифровываем с использованием пароля 'ванпис'
-    RETURN pgp_sym_decrypt(encrypted_bytes, 'ванпис');
+    -- Расшифровываем с использованием пароля 'polymer'
+    RETURN pgp_sym_decrypt(encrypted_bytes, 'polymer');
 EXCEPTION
     WHEN others THEN
         RETURN 'Ошибка дешифровки';
@@ -137,8 +137,8 @@ RETURNS TEXT AS $$
 DECLARE
     encrypted_bytes BYTEA;
 BEGIN
-    -- Шифруем с использованием пароля 'ванпис'
-    SELECT pgp_sym_encrypt(data, 'ванпис') INTO encrypted_bytes;
+    -- Шифруем с использованием пароля 'polymer'
+    SELECT pgp_sym_encrypt(data, 'polymer') INTO encrypted_bytes;
     -- Конвертируем в base64 для хранения как текст
     RETURN encode(encrypted_bytes, 'base64');
 END;
@@ -152,8 +152,8 @@ DECLARE
 BEGIN
     -- Декодируем из base64
     SELECT decode(encrypted_text, 'base64') INTO encrypted_bytes;
-    -- Расшифровываем с использованием пароля 'ванпис'
-    RETURN pgp_sym_decrypt(encrypted_bytes, 'ванпис');
+    -- Расшифровываем с использованием пароля 'polymer'
+    RETURN pgp_sym_decrypt(encrypted_bytes, 'polymer');
 EXCEPTION
     WHEN others THEN
         RETURN 'Ошибка дешифровки';
