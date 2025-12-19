@@ -1,5 +1,5 @@
 <?php
-// Просмотр результатов
+// Просмотр результатов тестирования
 session_start();
 require_once '../../resource/connect.php';
 ?>

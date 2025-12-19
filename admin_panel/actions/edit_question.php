@@ -1,4 +1,4 @@
-<?php // Добавить вопрос
+<?php // Редактировать вопрос
 session_start();
 require_once '../../resource/connect.php'; ?>
 
