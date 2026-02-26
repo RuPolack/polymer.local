@@ -1,6 +1,5 @@
 <?php
 require_once '../resource/connect.php';
-session_start();
 
 try {
     $name_admin = $_POST['name_admin'];

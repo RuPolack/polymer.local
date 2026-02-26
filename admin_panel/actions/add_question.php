@@ -1,6 +1,6 @@
 <?php // Добавить вопрос
-session_start();
 require_once '../../resource/connect.php';
+require_once '../../admin_panel/login_verification_admin/login_verification_admin.php';
 
 $message = "";
 

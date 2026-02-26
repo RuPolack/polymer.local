@@ -1,6 +1,6 @@
-<?php
-session_start();
+<?php // Домашняя страница админа
 require_once '../resource/connect.php';
+require_once '../admin_panel/login_verification_admin/login_verification_admin.php';
 ?>
 
 
