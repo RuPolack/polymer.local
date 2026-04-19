@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once '../resource/connect.php';
 
 $stmt = $pdo->query("SELECT * FROM professions ORDER BY id");
