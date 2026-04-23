@@ -1,9 +1,9 @@
 <?php
 session_start();
-$host = "shortline.proxy.rlwy.net:31635";
-$dbname = "railway";
+$host = "localhost";
+$dbname = "postgres";
 $username = "postgres";
-$password = "VQoehvTWaweugwIiXUwFIhQFbUXakiPQ";
+$password = "postgres";
 
 try {
     $pdo = new PDO("pgsql:host=$host;dbname=$dbname", $username, $password);
