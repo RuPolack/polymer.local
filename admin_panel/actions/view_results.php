@@ -1,11 +1,9 @@
 <?php
-// Просмотр результатов тестирования
 require_once '../../resource/connect.php';
 require_once '../../admin_panel/login_verification_admin/login_verification_admin.php';
 ?>
 
 <?php
-// Инициализация переменных
 $results = [];
 $total_count = ['total' => 0];
 $correct_count = ['correct_count' => 0];
@@ -14,33 +12,34 @@ $where_conditions = "1=1";
 $params = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Фильтр по профессии
     if (!empty($_POST['filter_profession'])) {
         $where_conditions .= " AND r.profession_id = ?";
         $params[] = $_POST['filter_profession'];
     }
 
-    // Фильтр по дате от
     if (!empty($_POST['filter_date_from'])) {
         $where_conditions .= " AND r.answer_date >= ?";
         $params[] = $_POST['filter_date_from'] . ' 00:00:00';
     }
 
-    // Фильтр по дате до
     if (!empty($_POST['filter_date_to'])) {
         $where_conditions .= " AND r.answer_date <= ?";
         $params[] = $_POST['filter_date_to'] . ' 23:59:59';
     }
 
-    // Сохраняем фильтры в сессию
+    if (!empty($_POST['filter_name'])) {
+        $where_conditions .= " AND decrypt_name(r.encrypted_name) ILIKE ?";
+        $params[] = '%' . $_POST['filter_name'] . '%';
+    }
+
     $_SESSION['filters'] = [
         'profession' => $_POST['filter_profession'] ?? '',
         'date_from' => $_POST['filter_date_from'] ?? '',
-        'date_to' => $_POST['filter_date_to'] ?? ''
+        'date_to' => $_POST['filter_date_to'] ?? '',
+        'name' => $_POST['filter_name'] ?? ''
     ];
 }
 
-// Если GET запрос и есть сохраненные фильтры
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_SESSION['filters'])) {
     $filters = $_SESSION['filters'];
 
@@ -58,9 +57,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_SESSION['filters'])) {
         $where_conditions .= " AND r.answer_date <= ?";
         $params[] = $filters['date_to'] . ' 23:59:59';
     }
+
+    if (!empty($filters['name'])) {
+        $where_conditions .= " AND decrypt_name(r.encrypted_name) ILIKE ?";
+        $params[] = '%' . $filters['name'] . '%';
+    }
 }
 
-// Получаем список профессий
 try {
     $sql_professions = "SELECT id, name FROM professions ORDER BY name";
     $stmt_professions = $pdo->prepare($sql_professions);
@@ -70,12 +73,10 @@ try {
     $error = "Ошибка при получении списка профессий: " . $e->getMessage();
 }
 
-// Проверка подключения
 if (!isset($pdo)) {
     die("Ошибка: Подключение к базе данных не установлено. Проверьте файл connect.php");
 }
 
-// Получаем данные
 try {
     $sql = "
         SELECT 
@@ -122,9 +123,6 @@ try {
 
 
 
-
-
-
 <!DOCTYPE html>
 <html lang="ru">
 
@@ -161,6 +159,13 @@ try {
                     </option>
                 <?php endforeach; ?>
             </select>
+        </div>
+        <br>
+
+        <div>
+            <label for="filter_name">Фильтр по имени:</label><br>
+            <input type="text" id="filter_name" name="filter_name"
+                value="<?php echo isset($_SESSION['filters']['name']) ? htmlspecialchars($_SESSION['filters']['name']) : ''; ?>">
         </div>
         <br>
 
